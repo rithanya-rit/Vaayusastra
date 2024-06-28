@@ -30,11 +30,16 @@ const client = new OAuth2Client(CLIENT_ID);
 // Login endpoint
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const user = await User.findOne({ email, password });
-    if (user) {
-        res.send({ message: 'Login successful' });
-    } else {
-        res.status(401).send({ message: 'Invalid email or password' });
+    try {
+        const user = await User.findOne({ email, password });
+        if (user) {
+            res.status(200).json({ message: 'Login successful' });
+        } else {
+            res.status(401).json({ message: 'Invalid email or password' });
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'An error occurred during login' });
     }
 });
 
@@ -62,7 +67,6 @@ app.post('/register', async (req, res) => {
 // Google Login endpoint
 app.post('/google-login', async (req, res) => {
     const { idToken } = req.body;
-    
     try {
         const ticket = await client.verifyIdToken({
             idToken: idToken,
@@ -86,13 +90,13 @@ app.post('/google-login', async (req, res) => {
             await user.save();
         }
         
-        res.status(200).send({ message: 'Login successful' });
+        res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         console.error('Error during Google login:', error);
-        res.status(401).send({ message: 'Invalid Google token' });
+        res.status(401).json({ message: 'Invalid Google token' });
     }
 });
 
-app.listen(3000, () => {
+app.listen(3000, '0.0.0.0', () => {
     console.log('Server is running on port 3000');
 });

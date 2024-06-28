@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'about_us_page.dart';
 import 'dashboard_page.dart';
 import 'more_page.dart';
@@ -33,6 +34,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _logout() async {
+    // Clear session data or perform logout actions here
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Clear all shared preferences
+
     // Navigate to the login page and replace all routes
     await Navigator.pushAndRemoveUntil(
       context,
@@ -108,16 +113,16 @@ class HomeScreen extends StatelessWidget {
               color: Colors.yellow,
               child: ListTile(
                 title: Text(
-                  'Learn Flutter',
+                  'Rocket Propulsion',
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  'Build beautiful native apps',
+                  'Advanced propulsion systems for space vehicles',
                   style: TextStyle(color: Colors.black54),
                 ),
                 trailing: Icon(Icons.arrow_forward, color: Colors.black),
                 onTap: () {
-                  // Navigate to a detailed Flutter course page
+                  // Navigate to a detailed Rocket Propulsion page
                 },
               ),
             ),
@@ -126,16 +131,16 @@ class HomeScreen extends StatelessWidget {
               color: Colors.yellow,
               child: ListTile(
                 title: Text(
-                  'Master React',
+                  'Satellite Technology',
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  'Create interactive UIs',
+                  'Design and development of satellite systems',
                   style: TextStyle(color: Colors.black54),
                 ),
                 trailing: Icon(Icons.arrow_forward, color: Colors.black),
                 onTap: () {
-                  // Navigate to a detailed React course page
+                  // Navigate to a detailed Satellite Technology page
                 },
               ),
             ),
@@ -144,22 +149,22 @@ class HomeScreen extends StatelessWidget {
               color: Colors.yellow,
               child: ListTile(
                 title: Text(
-                  'Explore Python',
+                  'Aerospace Engineering',
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  'Unlock the power of automation',
+                  'In-depth study of aerospace engineering principles',
                   style: TextStyle(color: Colors.black54),
                 ),
                 trailing: Icon(Icons.arrow_forward, color: Colors.black),
                 onTap: () {
-                  // Navigate to a detailed Python course page
+                  // Navigate to a detailed Aerospace Engineering page
                 },
               ),
             ),
             SizedBox(height: 40),
             Text(
-              'Our Top Courses',
+              'Our Top Programs',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
@@ -173,24 +178,24 @@ class HomeScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   CourseCard(
-                    title: 'Flutter Development',
+                    title: 'Rocket Propulsion',
                     color: Colors.yellow,
                     onTap: () {
-                      // Navigate to a detailed Flutter course page
+                      // Navigate to a detailed Rocket Propulsion page
                     },
                   ),
                   CourseCard(
-                    title: 'React Development',
+                    title: 'Satellite Technology',
                     color: Colors.yellow,
                     onTap: () {
-                      // Navigate to a detailed React course page
+                      // Navigate to a detailed Satellite Technology page
                     },
                   ),
                   CourseCard(
-                    title: 'Python Programming',
+                    title: 'Aerospace Engineering',
                     color: Colors.yellow,
                     onTap: () {
-                      // Navigate to a detailed Python course page
+                      // Navigate to a detailed Aerospace Engineering page
                     },
                   ),
                 ],

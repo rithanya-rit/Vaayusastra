@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loginchat/paymentOption_page.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:loginchat/paymentOption_page.dart'; // Update the import if necessary
 
 class Level3DetailPage extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class _Level3DetailPageState extends State<Level3DetailPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.blueGrey[900],
       builder: (BuildContext context) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.7,
@@ -29,7 +31,11 @@ class _Level3DetailPageState extends State<Level3DetailPage> {
             children: [
               Text(
                 'Chat with us!',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               Expanded(
                 child: ListView.builder(
@@ -100,7 +106,7 @@ class _Level3DetailPageState extends State<Level3DetailPage> {
     if (message.toLowerCase().contains('what are the payment options available?')) {
       response = 'We accept credit card, debit card, and PayPal.';
     } else if (message.toLowerCase().contains('what are the courses offered?')) {
-      response = 'We offer courses in Flutter, React, and Python.';
+      response = 'We offer courses in Aerospace Materials, Rocket Propulsion, and Satellite Technology.';
     } else if (message.toLowerCase().contains('how to enroll in a course?')) {
       response = 'You can enroll in our courses by visiting our website and selecting the course you are interested in.';
     } else if (message.toLowerCase().contains('how to get certification?')) {
@@ -121,7 +127,7 @@ class _Level3DetailPageState extends State<Level3DetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Level 3 Detail'),
-        backgroundColor: Colors.blueGrey[700], // Match the color of the Login Page
+        backgroundColor: Colors.blueGrey[700],
       ),
       body: Stack(
         children: [
@@ -131,7 +137,10 @@ class _Level3DetailPageState extends State<Level3DetailPage> {
               children: [
                 Text(
                   'Level 3 Content',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                  ),
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
@@ -142,19 +151,10 @@ class _Level3DetailPageState extends State<Level3DetailPage> {
                     );
                   },
                   child: Text('View Courses'),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CourseDescriptionPage(
-                        title: 'Flutter Development',
-                        description: 'Learn to build mobile applications with Flutter.',
-                      )),
-                    );
-                  },
-                  child: Text('View Course Details'),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(double.infinity, 50),
+                    backgroundColor: Colors.yellow,
+                  ),
                 ),
               ],
             ),
@@ -166,14 +166,14 @@ class _Level3DetailPageState extends State<Level3DetailPage> {
               feedback: FloatingActionButton(
                 onPressed: () {},
                 child: Icon(Icons.chat),
-                backgroundColor: Colors.yellow, // Match the color of the Login Page
+                backgroundColor: Colors.yellow,
               ),
               child: FloatingActionButton(
                 onPressed: () {
                   _showChatInterface(context);
                 },
                 child: Icon(Icons.chat),
-                backgroundColor: Colors.yellow, // Match the color of the Login Page
+                backgroundColor: Colors.yellow,
               ),
               onDraggableCanceled: (Velocity velocity, Offset offset) {
                 setState(() {
@@ -184,6 +184,7 @@ class _Level3DetailPageState extends State<Level3DetailPage> {
           ),
         ],
       ),
+      backgroundColor: Colors.blueGrey[900],
     );
   }
 }
@@ -201,57 +202,28 @@ class CourseListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Courses'),
-        backgroundColor: Colors.blueGrey[700], // Match the color of the Login Page
+        backgroundColor: Colors.blueGrey[700],
       ),
       body: ListView(
         children: [
           CourseCard(
-            title: 'Flutter Development',
-            description: 'Learn to build mobile applications with Flutter.',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CourseDescriptionPage(
-                    title: 'Flutter Development',
-                    description: 'Learn to build mobile applications with Flutter.',
-                  ),
-                ),
-              );
-            },
+            title: 'Aerospace Materials',
+            description: 'Explore advanced materials used in aerospace engineering and manufacturing.',
+            driveLink: 'https://drive.google.com/aerospace-materials-link',
           ),
           CourseCard(
-            title: 'React Development',
-            description: 'Master front-end web development with React.',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CourseDescriptionPage(
-                    title: 'React Development',
-                    description: 'Master front-end web development with React.',
-                  ),
-                ),
-              );
-            },
+            title: 'Rocket Propulsion',
+            description: 'Study the principles and technologies behind rocket propulsion systems.',
+            driveLink: 'https://drive.google.com/rocket-propulsion-link',
           ),
           CourseCard(
-            title: 'Python Programming',
-            description: 'Explore the world of programming with Python.',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CourseDescriptionPage(
-                    title: 'Python Programming',
-                    description: 'Explore the world of programming with Python.',
-                  ),
-                ),
-              );
-            },
+            title: 'Satellite Technology',
+            description: 'Learn about satellite design, communication, and orbital mechanics.',
+            driveLink: 'https://drive.google.com/satellite-technology-link',
           ),
         ],
       ),
+      backgroundColor: Colors.blueGrey[900],
     );
   }
 }
@@ -259,15 +231,20 @@ class CourseListPage extends StatelessWidget {
 class CourseDescriptionPage extends StatelessWidget {
   final String title;
   final String description;
+  final String driveLink;
 
-  CourseDescriptionPage({required this.title, required this.description});
+  CourseDescriptionPage({
+    required this.title,
+    required this.description,
+    required this.driveLink,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.blueGrey[700], // Match the color of the Login Page
+        backgroundColor: Colors.blueGrey[700],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -276,7 +253,7 @@ class CourseDescriptionPage extends StatelessWidget {
           children: [
             Text(
               description,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -287,10 +264,26 @@ class CourseDescriptionPage extends StatelessWidget {
                 );
               },
               child: Text('Pay Now'),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 50),
+                backgroundColor: Colors.yellow,
+              ),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                launch(driveLink);
+              },
+              child: Text('View Drive Link'),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 50),
+                backgroundColor: Colors.yellow,
+              ),
             ),
           ],
         ),
       ),
+      backgroundColor: Colors.blueGrey[900],
     );
   }
 }
@@ -298,56 +291,43 @@ class CourseDescriptionPage extends StatelessWidget {
 class CourseCard extends StatelessWidget {
   final String title;
   final String description;
-  final VoidCallback onTap;
+  final String driveLink;
 
   CourseCard({
     required this.title,
     required this.description,
-    required this.onTap,
+    required this.driveLink,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10),
+      color: Colors.blueGrey[800],
       child: ListTile(
-        title: Text(title),
-        onTap: onTap,
-      ),
-    );
-  }
-}
-
-class CourseDetailPage extends StatelessWidget {
-  final String title;
-  final String description;
-
-  CourseDetailPage({required this.title, required this.description});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.blueGrey[700], // Match the color of the Login Page
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.white),
+        ),
+        subtitle: Text(
+          description,
+          style: TextStyle(color: Colors.white70),
+        ),
+        trailing: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CourseDescriptionPage(
+                  title: title,
+                  description: description,
+                  driveLink: driveLink,
+                ),
               ),
-              SizedBox(height: 20),
-              Text(
-                description,
-                style: TextStyle(fontSize: 18),
-              ),
-            ],
+            );
+          },
+          child: Text('Details'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.yellow,
           ),
         ),
       ),

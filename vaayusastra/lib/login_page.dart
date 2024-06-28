@@ -7,6 +7,9 @@ import 'register_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+// Replace with your actual server IP address or hostname
+const String serverIP = '192.168.247.240'; // Update this with your server's IP address
+
 final GoogleSignIn _googleSignIn = GoogleSignIn(
   clientId: '905022693511-ekqnbsch7j2kja763s4nd0dj49926d0j.apps.googleusercontent.com',
 );
@@ -43,24 +46,31 @@ class _LoginPageState extends State<LoginPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    var url = Uri.parse('http://localhost:3000/login');
-    var response = await http.post(url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({'email': email, 'password': password}));
+    var url = Uri.parse('http://$serverIP:3000/login'); // Adjusted URL with server IP
+    try {
+      var response = await http.post(url,
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({'email': email, 'password': password}));
 
-    if (response.statusCode == 200) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool('isLoggedIn', true);
-      prefs.setString('email', email);
+      if (response.statusCode == 200) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true);
+        prefs.setString('email', email);
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } else {
-      var jsonResponse = json.decode(response.body);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else {
+        var jsonResponse = json.decode(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(jsonResponse['message'])),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(jsonResponse['message'])),
+        SnackBar(content: Text('Failed to connect to server')),
       );
     }
   }
@@ -72,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
         final String? idToken = googleAuth.idToken;
 
-        var url = Uri.parse('http://localhost:3000/google-login');
+        var url = Uri.parse('http://$serverIP:3000/google-login'); // Adjusted URL with server IP
         var response = await http.post(url,
             headers: {'Content-Type': 'application/json'},
             body: json.encode({'idToken': idToken}));
@@ -93,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     } catch (error) {
-      print(error);
+      print('Google Sign-In Error: $error');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Google Sign-In failed')),
       );
