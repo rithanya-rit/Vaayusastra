@@ -8,10 +8,10 @@ import 'package:flutter/gestures.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 // Replace with your actual server IP address or hostname
-const String serverIP = '192.168.247.240'; // Update this with your server's IP address
+const String serverIP = '192.168.247.111'; // Update this with your server's IP address
 
 final GoogleSignIn _googleSignIn = GoogleSignIn(
-  clientId: '905022693511-ekqnbsch7j2kja763s4nd0dj49926d0j.apps.googleusercontent.com',
+  clientId: '905022693511-ekqnbsch7j2kja763s4nd0dj49926d0j.apps.googleusercontent.com', 
 );
 
 class LoginPage extends StatefulWidget {
