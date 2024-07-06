@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loginchat/cart_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:loginchat/paymentOption_page.dart'; // Update the import if necessary
 
@@ -86,6 +87,20 @@ class _Level1DetailPageState extends State<Level1DetailPage> {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
+              // FAQ section
+              TextButton(
+                onPressed: () {
+                  _handleUserMessage('Show FAQs');
+                },
+                child: Text(
+                  'View FAQs',
+                  style: TextStyle(
+                    color: Colors.yellow,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ],
           ),
         );
@@ -96,8 +111,12 @@ class _Level1DetailPageState extends State<Level1DetailPage> {
   void _handleUserMessage(String message) {
     setState(() {
       _messages.add(ChatMessage(text: message, isBot: false));
+      if (message.toLowerCase().contains('show faqs')) {
+        _showFAQs();
+      } else {
+        _provideBotResponse(message);
+      }
       _textController.clear();
-      _provideBotResponse(message);
     });
   }
 
@@ -111,6 +130,12 @@ class _Level1DetailPageState extends State<Level1DetailPage> {
       response = 'You can enroll in our courses by visiting our website and selecting the course you are interested in.';
     } else if (message.toLowerCase().contains('how to get certification?')) {
       response = 'Upon successful completion of our courses, you will receive a certificate of completion.';
+    } else if (message.toLowerCase().contains('show faqs')) {
+      response = 'Here are some frequently asked questions:\n\n'
+          '1. What are the payment options available?\n'
+          '2. What are the courses offered?\n'
+          '3. How to enroll in a course?\n'
+          '4. How to get certification?';
     } else {
       response = 'Apologies, I\'m not sure how to respond to that.';
     }
@@ -120,6 +145,10 @@ class _Level1DetailPageState extends State<Level1DetailPage> {
         _messages.add(ChatMessage(text: response, isBot: true));
       });
     });
+  }
+
+  void _showFAQs() {
+    _provideBotResponse('Show FAQs');
   }
 
   @override
@@ -260,10 +289,10 @@ class CourseDescriptionPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PaymentOptionsPage()),
+                  MaterialPageRoute(builder: (context) => CartPage()),
                 );
               },
-              child: Text('Pay Now'),
+              child: Text('Buy Now'),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 50),
                 backgroundColor: Colors.yellow,

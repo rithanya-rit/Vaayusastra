@@ -11,6 +11,13 @@ import 'level4.dart';
 import 'paymentOption_page.dart';
 import 'cart_page.dart';
 import 'onboarding_navigator.dart';
+import 'Credit_Card_Payment_Page.dart';
+import 'Debit_Card_Payment_Page.dart';
+import 'PayPal_Payment_Page.dart';
+import 'Upi_Payment_page.dart';
+
+
+
 
 void main() => runApp(MyApp());
 

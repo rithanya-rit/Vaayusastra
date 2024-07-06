@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loginchat/paymentOption_page.dart';
+import 'package:loginchat/cart_page.dart'; // Import the CartPage where the cart functionality is implemented
 
 class CourseDescriptionPage extends StatelessWidget {
   final String title;
@@ -32,13 +32,22 @@ class CourseDescriptionPage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigate to the payment page
+                  // Add course to cart
+                  CartPage.addToCart(title); // Call the static method to add course to cart
+                  // Show a snackbar or dialog confirming the addition to cart
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$title added to cart'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                  // Navigate to CartPage after adding to cart
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PaymentOptionsPage()),
+                    MaterialPageRoute(builder: (context) => CartPage()),
                   );
                 },
-                child: Text('Pay Now'),
+                child: Text('Buy Now'), // Change button text to 'Buy Now'
               ),
             ),
           ],

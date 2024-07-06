@@ -4,101 +4,79 @@ class PaymentOptionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[900],
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[700],
         title: Text('Payment Options'),
+        backgroundColor: Colors.blueGrey[900],
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              PaymentOptionButton(
+                icon: Icons.credit_card,
+                text: 'Debit Card',
+                onPressed: () => Navigator.pushNamed(context, '/debit_card'),
+              ),
+              SizedBox(height: 20),
+              PaymentOptionButton(
+                icon: Icons.credit_card,
+                text: 'Credit Card',
+                onPressed: () => Navigator.pushNamed(context, '/credit_card'),
+              ),
+              SizedBox(height: 20),
+              PaymentOptionButton(
+                icon: Icons.account_balance_wallet,
+                text: 'PayPal',
+                onPressed: () => Navigator.pushNamed(context, '/paypal'),
+              ),
+              SizedBox(height: 20),
+              PaymentOptionButton(
+                icon: Icons.qr_code,
+                text: 'UPI',
+                onPressed: () => Navigator.pushNamed(context, '/upi'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PaymentOptionButton extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final VoidCallback onPressed;
+
+  PaymentOptionButton({required this.icon, required this.text, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(double.infinity, 50),
+        backgroundColor: Colors.yellow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.account_balance_wallet, color: Colors.yellow),
-            title: Text('UPI', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            onTap: () {
-              Navigator.pushNamed(context, '/upi'); // Navigate to UPI payment page
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.credit_card, color: Colors.yellow),
-            title: Text('Credit Card', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            onTap: () {
-              Navigator.pushNamed(context, '/credit_card'); // Navigate to Credit Card payment page
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.credit_card, color: Colors.yellow),
-            title: Text('Debit Card', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            onTap: () {
-              Navigator.pushNamed(context, '/debit_card'); // Navigate to Debit Card payment page
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.account_balance_wallet, color: Colors.yellow),
-            title: Text('PayPal', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            onTap: () {
-              Navigator.pushNamed(context, '/paypal'); // Navigate to PayPal payment page
-            },
+          Icon(icon, color: Colors.blueGrey[900]),
+          SizedBox(width: 16),
+          Text(
+            text,
+            style: TextStyle(
+              color: Colors.blueGrey[900],
+              fontSize: 18,
+            ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class UpiPaymentPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('UPI Payment'),
-      ),
-      body: Center(
-        child: Text('UPI Payment Page'),
-      ),
-    );
-  }
-}
-
-class CreditCardPaymentPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Credit Card Payment'),
-      ),
-      body: Center(
-        child: Text('Credit Card Payment Page'),
-      ),
-    );
-  }
-}
-
-class DebitCardPaymentPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Debit Card Payment'),
-      ),
-      body: Center(
-        child: Text('Debit Card Payment Page'),
-      ),
-    );
-  }
-}
-
-class PayPalPaymentPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('PayPal Payment'),
-      ),
-      body: Center(
-        child: Text('PayPal Payment Page'),
       ),
     );
   }

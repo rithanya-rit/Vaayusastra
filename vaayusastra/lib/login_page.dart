@@ -192,7 +192,18 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _loginWithGoogle,
-                child: Text('Login with Google'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 12,
+                      child: Icon(Icons.person, color: Colors.blueGrey[900], size: 18),
+                    ),
+                    SizedBox(width: 8),
+                    Text('Login with Google'),
+                  ],
+                ),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 50),
                   backgroundColor: Colors.yellow,

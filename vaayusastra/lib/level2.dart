@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loginchat/cart_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:loginchat/paymentOption_page.dart'; // Update the import if necessary
 
@@ -86,6 +87,20 @@ class _Level2DetailPageState extends State<Level2DetailPage> {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
+              // FAQ section
+              TextButton(
+                onPressed: () {
+                  _handleUserMessage('Show FAQs');
+                },
+                child: Text(
+                  'View FAQs',
+                  style: TextStyle(
+                    color: Colors.yellow,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ],
           ),
         );
@@ -96,8 +111,12 @@ class _Level2DetailPageState extends State<Level2DetailPage> {
   void _handleUserMessage(String message) {
     setState(() {
       _messages.add(ChatMessage(text: message, isBot: false));
+      if (message.toLowerCase().contains('show faqs')) {
+        _showFAQs();
+      } else {
+        _provideBotResponse(message);
+      }
       _textController.clear();
-      _provideBotResponse(message);
     });
   }
 
@@ -106,11 +125,17 @@ class _Level2DetailPageState extends State<Level2DetailPage> {
     if (message.toLowerCase().contains('what are the payment options available?')) {
       response = 'We accept credit card, debit card, and PayPal.';
     } else if (message.toLowerCase().contains('what are the courses offered?')) {
-      response = 'We offer courses in Advanced Aerospace Engineering, Avionics Systems, and Drone Technology.';
+      response = 'We offer courses in Aero Modelling Workshop, Science Workshops for Children, and Internship Programs.';
     } else if (message.toLowerCase().contains('how to enroll in a course?')) {
       response = 'You can enroll in our courses by visiting our website and selecting the course you are interested in.';
     } else if (message.toLowerCase().contains('how to get certification?')) {
       response = 'Upon successful completion of our courses, you will receive a certificate of completion.';
+    } else if (message.toLowerCase().contains('show faqs')) {
+      response = 'Here are some frequently asked questions:\n\n'
+          '1. What are the payment options available?\n'
+          '2. What are the courses offered?\n'
+          '3. How to enroll in a course?\n'
+          '4. How to get certification?';
     } else {
       response = 'Apologies, I\'m not sure how to respond to that.';
     }
@@ -120,6 +145,10 @@ class _Level2DetailPageState extends State<Level2DetailPage> {
         _messages.add(ChatMessage(text: response, isBot: true));
       });
     });
+  }
+
+  void _showFAQs() {
+    _provideBotResponse('Show FAQs');
   }
 
   @override
@@ -207,19 +236,19 @@ class CourseListPage extends StatelessWidget {
       body: ListView(
         children: [
           CourseCard(
-            title: 'Advanced Aerospace Engineering',
-            description: 'Dive into the intricacies of aerospace design and engineering principles.',
-            driveLink: 'https://drive.google.com/advanced-aerospace-link',
+            title: 'Aero Modelling Workshop',
+            description: 'Explore the basics of aerodynamics and aircraft design.',
+            driveLink: 'https://drive.google.com/aero-modelling-link',
           ),
           CourseCard(
-            title: 'Avionics Systems',
-            description: 'Explore the technology behind aircraft electronics and avionics systems.',
-            driveLink: 'https://drive.google.com/avionics-systems-link',
+            title: 'Science Workshops for Children',
+            description: 'Engage children with fun and educational science experiments.',
+            driveLink: 'https://drive.google.com/science-workshops-link',
           ),
           CourseCard(
-            title: 'Drone Technology',
-            description: 'Learn about drone applications, regulations, and operational techniques.',
-            driveLink: 'https://drive.google.com/drone-technology-link',
+            title: 'Internship Programs',
+            description: 'Gain hands-on experience with our engineering internship opportunities.',
+            driveLink: 'https://drive.google.com/internship-programs-link',
           ),
         ],
       ),
@@ -260,10 +289,10 @@ class CourseDescriptionPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PaymentOptionsPage()),
+                  MaterialPageRoute(builder: (context) => CartPage ()),
                 );
               },
-              child: Text('Pay Now'),
+              child: Text('Buy Now'),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 50),
                 backgroundColor: Colors.yellow,
